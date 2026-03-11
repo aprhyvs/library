@@ -1,6 +1,7 @@
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
+  this.id = crypto.randomUUID();
   this.title = title;
   this.author = author;
   this.pages = pages;
@@ -10,9 +11,21 @@ function Book(title, author, pages, read) {
   }
 }
 
-const book1 = new Book("test", "me", 1, "not read")
-console.log(book1.info()); // "The Hobbit by J.R.R. Tolkien, 295 pages, not read yet"
-
-function addBookToLibrary() {
-  //id here
+function addBookToLibrary(title, author, pages, read) {
+  myLibrary.push(new Book(title, author, pages, read))
 }
+
+addBookToLibrary("MLBB Guide", "Roman", 69, true)
+addBookToLibrary("MLBB Guide II", "Greek", 420, false)
+addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true)
+
+//render each book unto page
+function renderBooks() {
+  for (const book of myLibrary) {
+    console.log(book)
+  }
+}
+
+renderBooks()
+
+// console.log(myLibrary)
