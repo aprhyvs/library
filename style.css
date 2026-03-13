@@ -1,0 +1,14 @@
+* {
+  font-family: system-ui, sans-serif;
+}
+
+.book {
+  max-width: 320px;
+  padding: 1rem;
+  border: 1px solid black;
+}
+
+.book__title {
+  font-size: 20px;
+  font-weight: 500;
+}

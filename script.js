@@ -1,3 +1,4 @@
+const library = document.getElementById("library")
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -22,7 +23,16 @@ addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true)
 //render each book unto page
 function renderBooks() {
   for (const book of myLibrary) {
-    console.log(book)
+    library.insertAdjacentHTML("beforeend", 
+      `
+      <div class="book">
+        <p class="book__title">${book.title}</p>
+        <p class="book__author">${book.author}</p>
+        <p class="book__pages">${book.pages}</p>
+        <p class="book__read">${book.read}</p>
+      </div>
+      `
+    );
   }
 }
 
