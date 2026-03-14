@@ -9,8 +9,29 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="library" id="library">
-    library here
-  </div>
+  <section class="library">
+    <button class="library__button" id="add-book">
+      Add Book
+    </button>
+    <h1 class="title">
+      Library
+    </h1>
+    <div class="bookshelf" id="bookshelf">
+      <!-- 
+      <div class="book">
+        <p class="book__title">${book.title}</p>
+        <p class="book__author">${book.author}</p>
+        <p class="book__pages">${book.pages}</p>
+        <p class="book__read">${book.read}</p>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <dialog id="add-book-form">
+    <button id="close-modal">
+      Close Form
+    </button>
+  </dialog>
 </body>
 </html>
