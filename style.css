@@ -12,3 +12,8 @@
   font-size: 20px;
   font-weight: 500;
 }
+
+#add-book-form {
+  display: flex;
+  flex-direction: column;
+}

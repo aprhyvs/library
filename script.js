@@ -1,8 +1,9 @@
 const myLibrary = [];
 const bookshelf = document.getElementById("bookshelf");
-const addBookBtn = document.getElementById("add-book");
+const openAddBookModal = document.getElementById("open-add-book-modal");
+const closeAddBookModal = document.getElementById("close-modal");
+const addBookModal = document.getElementById("add-book-modal");
 const addBookForm = document.getElementById("add-book-form");
-const closeBookFormBtn = document.getElementById("close-modal");
 
 function Book(title, author, pages, read) {
   this.id = crypto.randomUUID();
@@ -44,12 +45,16 @@ function renderBooks() {
 renderBooks()
 
 function addBook() {
-  addBookForm.showModal();
+  addBookModal.showModal();
 }
 
-addBookBtn.addEventListener("click", addBook);
+openAddBookModal.addEventListener("click", addBook);
 
-closeBookFormBtn.addEventListener("click", () => {
-  addBookForm.close();
+closeAddBookModal.addEventListener("click", () => {
+  addBookModal.close();
 });
 
+addBookForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(addBookForm);
+});
