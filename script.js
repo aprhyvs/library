@@ -21,13 +21,15 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 addBookToLibrary("MLBB Guide", "Roman", 69, true);
-addBookToLibrary("MLBB Guide II", "Greek", 420, false);
-addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true);
-addBookToLibrary("MLBB Guide IV", "Viking", 300, true);
-addBookToLibrary("MLBB Guide V", "Turks", 67, true);
+// addBookToLibrary("MLBB Guide II", "Greek", 420, false);
+// addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true);
+// addBookToLibrary("MLBB Guide IV", "Viking", 300, true);
+// addBookToLibrary("MLBB Guide V", "Turks", 67, true);
 
 //render each book unto page
 function renderBooks() {
+  bookshelf.innerHTML = "";
+
   for (const book of myLibrary) {
     bookshelf.insertAdjacentHTML("beforeend", 
       `
@@ -56,5 +58,12 @@ closeAddBookModal.addEventListener("click", () => {
 
 addBookForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const formData = new FormData(addBookForm);
+
+  const title = document.querySelector('#book-title').value
+  const author = document.querySelector('#book-author').value
+  const pages = document.querySelector('#book-pages').value 
+  const read = document.querySelector('#book-read').value 
+
+  addBookToLibrary(title, author, pages, read);
+  renderBooks()
 });
