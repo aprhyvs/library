@@ -20,11 +20,28 @@ function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(new Book(title, author, pages, read));
 }
 
-addBookToLibrary("MLBB Guide", "Roman", 69, true);
-// addBookToLibrary("MLBB Guide II", "Greek", 420, false);
-// addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true);
-// addBookToLibrary("MLBB Guide IV", "Viking", 300, true);
-// addBookToLibrary("MLBB Guide V", "Turks", 67, true);
+function deleteBook(element) {
+  // remove the element from the DOM
+  element.remove();
+
+  // find the index of the Book to delete
+  const bookId = element.dataset.attribute
+  const getBookToDelete = myLibrary.findIndex((book) => book.id === bookId);
+  console.log(getBookToDelete)
+
+  // const deletedBook = myLibrary.find((book) => book.id === bookId);
+  // console.log(deletedBook);
+
+  // remove the Book from the array
+  myLibrary.splice(getBookToDelete, 1)
+  console.log(myLibrary)
+}
+
+addBookToLibrary("MLBB Guide I", "Roman", 69, true);
+addBookToLibrary("MLBB Guide II", "Greek", 420, false);
+addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true);
+addBookToLibrary("MLBB Guide IV", "Viking", 300, true);
+addBookToLibrary("MLBB Guide V", "Turks", 67, true);
 
 //render each book unto page
 function renderBooks() {
@@ -33,7 +50,8 @@ function renderBooks() {
   for (const book of myLibrary) {
     bookshelf.insertAdjacentHTML("beforeend", 
       `
-      <div class="book">
+      <div class="book" data-attribute="${book.id}">
+        <button data-action="delete-book">Delete Book</button>
         <p class="book__title">${book.title}</p>
         <p class="book__author">${book.author}</p>
         <p class="book__pages">${book.pages}</p>
@@ -42,6 +60,14 @@ function renderBooks() {
       `
     );
   }
+
+  const bookEl = document.querySelectorAll(`[data-attribute]`);
+
+  bookEl.forEach(element => {
+    const deleteBookBtn = element.querySelector(`[data-action="delete-book"]`);
+
+    deleteBookBtn.addEventListener("click", () => deleteBook(element));
+  });
 }
 
 renderBooks()
