@@ -37,11 +37,29 @@ function deleteBook(element) {
   console.log(myLibrary)
 }
 
-addBookToLibrary("MLBB Guide I", "Roman", 69, true);
-addBookToLibrary("MLBB Guide II", "Greek", 420, false);
-addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true);
-addBookToLibrary("MLBB Guide IV", "Viking", 300, true);
-addBookToLibrary("MLBB Guide V", "Turks", 67, true);
+function readBook(element) {
+  const bookId = element.dataset.attribute;
+
+  // change DOM textContent
+  const changeBookReadStatus = element.querySelector(`.book__read`);
+  if (changeBookReadStatus.textContent === "true") {
+    changeBookReadStatus.textContent = "false";
+  } else {
+    changeBookReadStatus.textContent = "true";
+  }
+
+  // change object value in the array
+  const getBookToRead = myLibrary.find((book) => book.id === bookId);
+  if (getBookToRead) {
+    getBookToRead.read = getBookToRead.read === "true" ? "false" : "true";
+  }
+}
+
+addBookToLibrary("MLBB Guide I", "Roman", 69, "true");
+addBookToLibrary("MLBB Guide II", "Greek", 420, "false");
+addBookToLibrary("MLBB Guide III", "Egyptian", 1337, "true");
+addBookToLibrary("MLBB Guide IV", "Viking", 300, "true");
+addBookToLibrary("MLBB Guide V", "Turks", 67, "true");
 
 //render each book unto page
 function renderBooks() {
@@ -56,6 +74,7 @@ function renderBooks() {
         <p class="book__author">${book.author}</p>
         <p class="book__pages">${book.pages}</p>
         <p class="book__read">${book.read}</p>
+        <button data-action="read-book">Read Book?</button>
       </div>
       `
     );
@@ -65,8 +84,10 @@ function renderBooks() {
 
   bookEl.forEach(element => {
     const deleteBookBtn = element.querySelector(`[data-action="delete-book"]`);
+    const readBookBtn = element.querySelector(`[data-action="read-book"]`);
 
     deleteBookBtn.addEventListener("click", () => deleteBook(element));
+    readBookBtn.addEventListener("click", () => readBook(element));
   });
 }
 
