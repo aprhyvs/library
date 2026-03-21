@@ -10,10 +10,7 @@ function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.read = read;
-  this.info = function() {
-    console.log(`${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`);
-  }
+  this.read = read; 
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -32,29 +29,16 @@ function deleteBook(element) {
   myLibrary.splice(getBookToDelete, 1)
 }
 
-function readBook(element) {
-  const bookId = element.dataset.attribute;
-
-  // change DOM textContent
-  const changeBookReadStatus = element.querySelector(`.book__read`);
-  if (changeBookReadStatus.textContent === "true") {
-    changeBookReadStatus.textContent = "false";
-  } else {
-    changeBookReadStatus.textContent = "true";
-  }
-
-  // change object value in the array
-  const getBookToRead = myLibrary.find((book) => book.id === bookId);
-  if (getBookToRead) {
-    getBookToRead.read = getBookToRead.read === "true" ? "false" : "true";
-  }
+Book.prototype.readBook = function () {
+  this.read = !this.read;
+  renderBooks()
 }
 
-addBookToLibrary("MLBB Guide I", "Roman", 69, "true");
-addBookToLibrary("MLBB Guide II", "Greek", 420, "false");
-addBookToLibrary("MLBB Guide III", "Egyptian", 1337, "true");
-addBookToLibrary("MLBB Guide IV", "Viking", 300, "true");
-addBookToLibrary("MLBB Guide V", "Turks", 67, "true");
+addBookToLibrary("MLBB Guide I", "Roman", 69, true);
+addBookToLibrary("MLBB Guide II", "Greek", 420, false);
+addBookToLibrary("MLBB Guide III", "Egyptian", 1337, true);
+addBookToLibrary("MLBB Guide IV", "Viking", 300, true);
+addBookToLibrary("MLBB Guide V", "Turks", 67, true);
 
 //render each book unto page
 function renderBooks() {
@@ -80,9 +64,11 @@ function renderBooks() {
   bookEl.forEach(element => {
     const deleteBookBtn = element.querySelector(`[data-action="delete-book"]`);
     const readBookBtn = element.querySelector(`[data-action="read-book"]`);
+    const bookId = element.dataset.attribute
+    const getBookToRead = myLibrary.find((book) => book.id === bookId);
 
     deleteBookBtn.addEventListener("click", () => deleteBook(element));
-    readBookBtn.addEventListener("click", () => readBook(element));
+    readBookBtn.addEventListener("click", () => getBookToRead.readBook());
   });
 }
 
@@ -104,7 +90,7 @@ addBookForm.addEventListener("submit", (event) => {
   const title = document.querySelector('#book-title').value
   const author = document.querySelector('#book-author').value
   const pages = document.querySelector('#book-pages').value 
-  const read = document.querySelector('#book-read').value 
+  const read = document.querySelector('#book-read').value === "true" ? true : false;
 
   addBookToLibrary(title, author, pages, read);
   renderBooks()
