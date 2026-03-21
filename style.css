@@ -2,6 +2,16 @@
   font-family: system-ui, sans-serif;
 }
 
+body {
+  padding: 32px;
+}
+
+.bookshelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
 .book {
   max-width: 320px;
   padding: 1rem;

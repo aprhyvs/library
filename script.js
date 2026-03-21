@@ -27,14 +27,9 @@ function deleteBook(element) {
   // find the index of the Book to delete
   const bookId = element.dataset.attribute
   const getBookToDelete = myLibrary.findIndex((book) => book.id === bookId);
-  console.log(getBookToDelete)
-
-  // const deletedBook = myLibrary.find((book) => book.id === bookId);
-  // console.log(deletedBook);
 
   // remove the Book from the array
   myLibrary.splice(getBookToDelete, 1)
-  console.log(myLibrary)
 }
 
 function readBook(element) {
@@ -113,4 +108,5 @@ addBookForm.addEventListener("submit", (event) => {
 
   addBookToLibrary(title, author, pages, read);
   renderBooks()
+  addBookModal.close()
 });
