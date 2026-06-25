@@ -1,3 +1,5 @@
+const bookshelf = document.getElementById("bookshelf")
+
 class Book {
   // REFERENCE:
   // Source - https://stackoverflow.com/a/73055512
@@ -11,7 +13,6 @@ class Book {
     this.author = author
     this.pages = pages
     this.read = read
-    Book.myLibrary.push(this)
   }
 
   readBook() { 
@@ -19,7 +20,49 @@ class Book {
   }
 }
 
-const newBook = new Book('MLBB', 'joe', 1, true);
+function addBookToLibrary(title, author, pages, read) {
+  Book.myLibrary.push(new Book(title, author, pages, read));
+}
 
-console.log(newBook.readBook())
-console.log(newBook)
+function deleteBook() {
+  const getBookToDelete = Book.myLibrary.findIndex((book) => book.id === this.book)
+
+  Book.myLibrary.splice(getBookToDelete, 1)
+}
+
+function getBook(element) {
+  console.log(element)
+  console.log(element.dataset.id)
+}
+
+addBookToLibrary("titlehere", "joe", 69, true)
+addBookToLibrary("titlehere", "joe", 69, true)
+addBookToLibrary("titlehere", "joe", 69, true)
+
+function renderBooks() {
+  bookshelf.innerHTML = ""
+
+  for (const book of Book.myLibrary) {
+    bookshelf.insertAdjacentHTML("beforeend",
+    ` 
+    <div class="book" data-id="${book.id}">
+      <button data-action="get-book">Get Book</button>
+      <p class="book__title">${book.title}</p>
+      <p class="book__author">${book.author}</p>
+      <p class="book__pages">${book.pages}</p>
+      <p class="book__read">${book.read}</p>
+    </div>
+    `
+    );
+  }
+
+  const bookEl = document.querySelectorAll(`[data-id]`);
+
+  bookEl.forEach(element => {
+    const getBookBtn = element.querySelector(`[data-action="get-book"]`);
+
+    getBookBtn.addEventListener("click", () => getBook(element))
+  })
+}
+
+renderBooks()
