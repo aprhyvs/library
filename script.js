@@ -1,4 +1,8 @@
-const bookshelf = document.getElementById("bookshelf")
+const bookshelf = document.getElementById("bookshelf");
+const openAddBookModal = document.getElementById('open-add-book-modal');
+const closeAddBookModal = document.getElementById('close-modal');
+const addBookModal = document.getElementById('add-book-modal');
+const addBookForm = document.getElementById("add-book-form");
 
 class Book {
   // REFERENCE:
@@ -15,32 +19,23 @@ class Book {
     this.read = read
   }
 
-  // we could make `getBookIndex` and `getBookToDelete` into one...
-  static readBook(element, elementBookIdParam) { 
-    const getBookIndex = Book.myLibrary.findIndex((book) => book.id === elementBookIdParam);
-    const bookToRead = Book.myLibrary[getBookIndex]
-
+  static readBook(element, bookIndexParam) { 
+    const bookToRead = Book.myLibrary[bookIndexParam]
     bookToRead.read = !bookToRead.read
+
     renderBooks()
   }
 
-  static deleteBook(element, elementBookIdParam) {
-    const getBookToDelete = Book.myLibrary.findIndex((book) => book.id === elementBookIdParam);
-
+  static deleteBook(element, bookIndexParam) {
     element.remove()
-    Book.myLibrary.splice(getBookToDelete, 1)
+    Book.myLibrary.splice(bookIndexParam, 1)
+
     renderBooks()
   }
-}
 
-function addBookToLibrary(title, author, pages, read) {
-  Book.myLibrary.push(new Book(title, author, pages, read));
-}
-
-function getBook(element, elementBookIdParam) {
-  const getBookIndex = Book.myLibrary.findIndex((book) => book.id === elementBookIdParam);
-
-  console.log(Book.myLibrary[getBookIndex])
+  static addBookToLibrary(title, author, pages, read) {
+    Book.myLibrary.push(new Book(title, author, pages, read));
+  }
 }
 
 function renderBooks() {
@@ -64,18 +59,40 @@ function renderBooks() {
   const bookEl = document.querySelectorAll(`[data-id]`);
 
   bookEl.forEach(element => {
-    const deleteBookBtn = element.querySelector(`[data-action="delete-book"]`);
     const readBookBtn = element.querySelector(`[data-action="read-book"]`);
+    const deleteBookBtn = element.querySelector(`[data-action="delete-book"]`);
 
     const elementBookId = element.dataset.id
+    const getBookIndex = Book.myLibrary.findIndex((book) => book.id === elementBookId);
 
-    deleteBookBtn.addEventListener("click", () => Book.deleteBook(element, elementBookId))
-    readBookBtn.addEventListener("click", () => Book.readBook(element, elementBookId))
+    readBookBtn.addEventListener("click", () => Book.readBook(element, getBookIndex))
+    deleteBookBtn.addEventListener("click", () => Book.deleteBook(element, getBookIndex))
   })
 }
 
-addBookToLibrary("titlehere", "joe", 69, true)
-addBookToLibrary("nottitle", "rikishi", 69, true)
-addBookToLibrary("thistitle", "jose", 69, true)
+Book.addBookToLibrary("titlehere", "joe", 69, true)
+Book.addBookToLibrary("nottitle", "rikishi", 69, true)
+Book.addBookToLibrary("thistitle", "jose", 69, true)
 
 renderBooks()
+
+openAddBookModal.addEventListener("click", () => {
+  addBookModal.showModal()
+});
+
+closeAddBookModal.addEventListener("click", () => {
+  addBookModal.close();
+});
+
+addBookForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const title = document.querySelector('#book-title').value
+  const author = document.querySelector('#book-author').value
+  const pages = document.querySelector('#book-pages').value 
+  const read = document.querySelector('#book-read').value === "true" ? true : false;
+
+  Book.addBookToLibrary(title, author, pages, read);
+  renderBooks()
+  addBookModal.close()
+});
