@@ -9,6 +9,9 @@ class Book {
   // Source - https://stackoverflow.com/a/73055512
   // Posted by Lord-JulianXLII
   // Retrieved 2026-06-15, License - CC BY-SA 4.0
+  
+  // this could outside the class `Book`
+  // just for clear seperation of concerns
   static myLibrary = []
 
   constructor(title, author, pages, read) {
@@ -19,15 +22,14 @@ class Book {
     this.read = read
   }
 
-  static readBook(element, bookIndexParam) { 
+  static readBook(bookIndexParam) { 
     const bookToRead = Book.myLibrary[bookIndexParam]
     bookToRead.read = !bookToRead.read
 
     renderBooks()
   }
 
-  static deleteBook(element, bookIndexParam) {
-    element.remove()
+  static deleteBook(bookIndexParam) {
     Book.myLibrary.splice(bookIndexParam, 1)
 
     renderBooks()
@@ -38,6 +40,11 @@ class Book {
   }
 }
 
+/**
+ * This could also be a static method if
+ * I want it to be a everything book 
+ * related lives in the class Book
+ */
 function renderBooks() {
   bookshelf.innerHTML = ""
 
@@ -65,8 +72,8 @@ function renderBooks() {
     const elementBookId = element.dataset.id
     const getBookIndex = Book.myLibrary.findIndex((book) => book.id === elementBookId);
 
-    readBookBtn.addEventListener("click", () => Book.readBook(element, getBookIndex))
-    deleteBookBtn.addEventListener("click", () => Book.deleteBook(element, getBookIndex))
+    readBookBtn.addEventListener("click", () => Book.readBook(getBookIndex))
+    deleteBookBtn.addEventListener("click", () => Book.deleteBook(getBookIndex))
   })
 }
 
